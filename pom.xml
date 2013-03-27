@@ -32,7 +32,7 @@
   <url>http://ci-dev.renci.org/site/gate/project-info.html</url>
   <issueManagement>
     <system>gForge</system>
-    <url>https://code.renci.org/gf/project/g_p_kure/tracker/</url>
+    <url>https://code.renci.org/gf/project/g_p_u_kure/tracker/</url>
   </issueManagement>
   <ciManagement>
     <system>hudson</system>
@@ -56,8 +56,8 @@
     </license>
   </licenses>
   <scm>
-    <developerConnection>scm:git:ssh://${user.name}@code.renci.org/gitroot/g_p_kure</developerConnection>
-    <connection>scm:git:ssh://developername@code.renci.org/gitroot/g_p_kure</connection>
+    <developerConnection>scm:git:ssh://${user.name}@code.renci.org/gitroot/g_p_u_kure</developerConnection>
+    <connection>scm:git:ssh://developername@code.renci.org/gitroot/g_p_u_kure</connection>
   </scm>
   <repositories>
     <repository>
