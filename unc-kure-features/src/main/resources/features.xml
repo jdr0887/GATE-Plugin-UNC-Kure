@@ -1,0 +1,12 @@
+<features name="gate-plugin-unc-kure-${project.version}">
+
+  <feature name="gate-plugin-unc-kure" version="${project.version}" resolver="(obr)">
+    <bundle>mvn:org.renci.gate.plugin.unc.kure/kure-service/${project.version}</bundle>
+  </feature>
+
+</features>
+
+
+
+
+

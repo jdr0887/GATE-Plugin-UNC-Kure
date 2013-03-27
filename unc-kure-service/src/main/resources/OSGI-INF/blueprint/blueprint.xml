@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0" default-activation="lazy">
+
+  <cm:property-placeholder persistent-id="org.renci.gate.plugin.kure" update-strategy="reload">
+    <cm:default-properties>
+      <cm:property name="maxTotalPending" value="9" />
+      <cm:property name="maxTotalRunning" value="30" />
+      <cm:property name="activeQueues" value="pseq_prod,week" />
+      <cm:property name="collectorHost" value="biodev1.its.unc.edu" />
+      <cm:property name="username" value="" />
+    </cm:default-properties>
+  </cm:property-placeholder>
+
+  <bean id="pRENCIQueue" class="org.renci.jlrm.Queue">
+    <property name="name" value="prenci" />
+    <property name="weight" value="1" />
+    <property name="maxJobLimit" value="64" />
+    <property name="maxMultipleJobsToSubmit" value="3" />
+    <property name="pendingTime" value="1440" />
+    <property name="runTime" value="5760" />
+  </bean>
+
+  <bean id="pseqProdQueue" class="org.renci.jlrm.Queue">
+    <property name="name" value="pseq_prod" />
+    <property name="weight" value="1" />
+    <property name="maxJobLimit" value="64" />
+    <property name="maxMultipleJobsToSubmit" value="3" />
+    <property name="pendingTime" value="1440" />
+    <property name="runTime" value="5760" />
+  </bean>
+
+  <bean id="weekQueue" class="org.renci.jlrm.Queue">
+    <property name="name" value="week" />
+    <property name="weight" value="1" />
+    <property name="maxJobLimit" value="8" />
+    <property name="maxMultipleJobsToSubmit" value="1" />
+    <property name="pendingTime" value="1440" />
+    <property name="runTime" value="4320" />
+  </bean>
+
+  <bean id="pseqTCGAQueue" class="org.renci.jlrm.Queue">
+    <property name="name" value="pseq_tcga" />
+    <property name="weight" value="1" />
+    <property name="maxJobLimit" value="8" />
+    <property name="maxMultipleJobsToSubmit" value="1" />
+    <property name="pendingTime" value="1440" />
+    <property name="runTime" value="5760" />
+  </bean>
+
+  <bean id="site" class="org.renci.jlrm.Site">
+    <property name="name" value="Kure" />
+    <property name="project" value="TCGA" />
+    <property name="username" value="${username}" />
+    <property name="submitHost" value="${collectorHost}" />
+    <property name="maxTotalPending" value="${maxTotalPending}" />
+    <property name="maxTotalRunning" value="${maxTotalRunning}" />
+    <property name="queueInfoMap">
+      <map>
+        <entry key="pseq_tcga" value-ref="pseqTCGAQueue" />
+        <entry key="pseq_prod" value-ref="pseqProdQueue" />
+        <entry key="prenci" value-ref="pRENCIQueue" />
+        <entry key="week" value-ref="weekQueue" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="kureGATEService" class="org.renci.gate.plugin.kure.KUREGATEService">
+    <property name="site" ref="site" />
+    <property name="collectorHost" value="${collectorHost}" />
+    <property name="activeQueues" value="${activeQueues}" />
+    <cm:managed-properties persistent-id="org.renci.gate.plugin.kure" update-strategy="container-managed" />
+  </bean>
+
+  <service ref="kureGATEService" interface="org.renci.gate.GATEService" />
+
+</blueprint>
