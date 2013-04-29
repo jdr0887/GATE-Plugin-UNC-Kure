@@ -7,6 +7,7 @@
       <cm:property name="maxTotalPending" value="9" />
       <cm:property name="maxTotalRunning" value="30" />
       <cm:property name="activeQueues" value="pseq_prod,week" />
+      <cm:property name="submitHost" value="biodev1.its.unc.edu" />
       <cm:property name="collectorHost" value="biodev1.its.unc.edu" />
       <cm:property name="username" value="" />
     </cm:default-properties>
@@ -15,7 +16,7 @@
   <bean id="pRENCIQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="prenci" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="64" />
+    <property name="maxJobLimit" value="40" />
     <property name="maxMultipleJobsToSubmit" value="3" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="5760" />
@@ -24,7 +25,7 @@
   <bean id="pseqProdQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="pseq_prod" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="64" />
+    <property name="maxJobLimit" value="40" />
     <property name="maxMultipleJobsToSubmit" value="3" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="5760" />
@@ -33,7 +34,7 @@
   <bean id="weekQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="week" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="8" />
+    <property name="maxJobLimit" value="12" />
     <property name="maxMultipleJobsToSubmit" value="1" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="4320" />
@@ -52,7 +53,7 @@
     <property name="name" value="Kure" />
     <property name="project" value="TCGA" />
     <property name="username" value="${username}" />
-    <property name="submitHost" value="${collectorHost}" />
+    <property name="submitHost" value="${submitHost}" />
     <property name="maxTotalPending" value="${maxTotalPending}" />
     <property name="maxTotalRunning" value="${maxTotalRunning}" />
     <property name="queueInfoMap">
