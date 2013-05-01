@@ -4,7 +4,7 @@
 
   <cm:property-placeholder persistent-id="org.renci.gate.plugin.kure" update-strategy="reload">
     <cm:default-properties>
-      <cm:property name="maxTotalPending" value="9" />
+      <cm:property name="maxTotalPending" value="4" />
       <cm:property name="maxTotalRunning" value="30" />
       <cm:property name="activeQueues" value="pseq_prod,week" />
       <cm:property name="submitHost" value="biodev1.its.unc.edu" />
@@ -17,7 +17,7 @@
     <property name="name" value="prenci" />
     <property name="weight" value="1" />
     <property name="maxJobLimit" value="40" />
-    <property name="maxMultipleJobsToSubmit" value="3" />
+    <property name="maxMultipleJobsToSubmit" value="2" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="5760" />
   </bean>
@@ -26,7 +26,7 @@
     <property name="name" value="pseq_prod" />
     <property name="weight" value="1" />
     <property name="maxJobLimit" value="40" />
-    <property name="maxMultipleJobsToSubmit" value="3" />
+    <property name="maxMultipleJobsToSubmit" value="2" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="5760" />
   </bean>
