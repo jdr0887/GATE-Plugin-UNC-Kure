@@ -34,6 +34,8 @@ public class KUREGATEService extends AbstractGATEService {
 
     private final List<LSFSSHJob> jobCache = new ArrayList<LSFSSHJob>();
 
+    private String username;
+
     public KUREGATEService() {
         super();
     }
@@ -150,8 +152,17 @@ public class KUREGATEService extends AbstractGATEService {
             logger.info("siteInfo: {}", getSite());
             logger.info("queueInfo: {}", queue);
             String hostAllow = "*.its.unc.edu";
-            LSFSSHSubmitCondorGlideinCallable callable = new LSFSSHSubmitCondorGlideinCallable(getSite(), queue,
-                    submitDir, "glidein", getCollectorHost(), hostAllow, hostAllow, 40);
+            LSFSSHSubmitCondorGlideinCallable callable = new LSFSSHSubmitCondorGlideinCallable();
+            callable.setCollectorHost(getCollectorHost());
+            callable.setUsername(System.getProperty("user.name"));
+            callable.setSite(getSite());
+            callable.setJobName("glidein");
+            callable.setQueue(queue);
+            callable.setSubmitDir(submitDir);
+            callable.setRequiredMemory(40);
+            callable.setHostAllowRead(hostAllow);
+            callable.setHostAllowWrite(hostAllow);
+
             job = Executors.newSingleThreadExecutor().submit(callable).get();
             if (job != null && StringUtils.isNotEmpty(job.getId())) {
                 logger.info("job.getId(): {}", job.getId());
@@ -197,6 +208,14 @@ public class KUREGATEService extends AbstractGATEService {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }
