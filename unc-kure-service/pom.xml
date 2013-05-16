@@ -2,13 +2,13 @@
   <parent>
     <groupId>org.renci.gate.plugins.unc</groupId>
     <artifactId>kure</artifactId>
-    <version>0.0.14-SNAPSHOT</version>
+    <version>0.0.14</version>
   </parent>
   <name>GATE :: Plugins :: UNC :: Kure :: Service</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.renci.gate.plugins.unc.kure</groupId>
   <artifactId>unc-kure-service</artifactId>
-  <version>0.0.14-SNAPSHOT</version>
+  <version>0.0.14</version>
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
