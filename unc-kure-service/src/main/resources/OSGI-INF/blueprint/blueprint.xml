@@ -43,7 +43,7 @@
   <bean id="pseqTCGAQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="pseq_tcga" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="8" />
+    <property name="maxJobLimit" value="50" />
     <property name="maxMultipleJobsToSubmit" value="1" />
     <property name="pendingTime" value="1440" />
     <property name="runTime" value="5760" />
