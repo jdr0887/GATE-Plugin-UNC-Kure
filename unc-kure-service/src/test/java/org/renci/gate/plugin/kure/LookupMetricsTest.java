@@ -33,7 +33,7 @@ public class LookupMetricsTest {
         Map<String, GlideinMetric> metricsMap = new HashMap<String, GlideinMetric>();
 
         try {
-            
+
             Site site = new Site();
             site.setName("Kure");
             site.setProject("TCGA");
@@ -51,7 +51,7 @@ public class LookupMetricsTest {
             queue.setRunTime(5760);
             queueInfoMap.put("pseq_prod", queue);
             site.setQueueInfoMap(queueInfoMap);
-            
+
             LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(jobCache, site);
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(callable).get();
 
@@ -86,13 +86,12 @@ public class LookupMetricsTest {
                         continue;
                     }
 
-                    GlideinMetric metric = metricsMap.get(info.getQueue());
                     switch (info.getType()) {
                         case PENDING:
-                            metric.setPending(metric.getPending() + 1);
+                            metricsMap.get(info.getQueue()).incrementPending();
                             break;
                         case RUNNING:
-                            metric.setRunning(metric.getRunning() + 1);
+                            metricsMap.get(info.getQueue()).incrementRunning();
                             break;
                     }
                 }
@@ -135,12 +134,8 @@ public class LookupMetricsTest {
             e.printStackTrace();
         }
 
-        
-        
-        
-
     }
-    
+
     @Test
     public void testLookupMetrics() {
         List<LSFSSHJob> jobCache = new ArrayList<LSFSSHJob>();
