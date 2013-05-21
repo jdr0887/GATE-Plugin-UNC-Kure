@@ -81,16 +81,14 @@ public class KUREGATEService extends AbstractGATEService {
                         continue;
                     }
 
-                    GlideinMetric metric = metricsMap.get(info.getQueue());
                     switch (info.getType()) {
                         case PENDING:
-                            metric.setPending(metric.getPending() + 1);
+                            metricsMap.get(info.getQueue()).incrementPending();
                             break;
                         case RUNNING:
-                            metric.setRunning(metric.getRunning() + 1);
+                            metricsMap.get(info.getQueue()).incrementRunning();
                             break;
                     }
-                    logger.debug("metric: {}", metric.toString());
                 }
             }
 
@@ -104,13 +102,12 @@ public class KUREGATEService extends AbstractGATEService {
                     }
 
                     if (!alreadyTalliedJobIdSet.contains(nextJob.getId()) && nextJob.getId().equals(info.getJobId())) {
-                        GlideinMetric metric = metricsMap.get(info.getQueue());
                         switch (info.getType()) {
                             case PENDING:
-                                metric.setPending(metric.getPending() + 1);
+                                metricsMap.get(info.getQueue()).incrementPending();
                                 break;
                             case RUNNING:
-                                metric.setRunning(metric.getRunning() + 1);
+                                metricsMap.get(info.getQueue()).incrementRunning();
                                 break;
                             case EXIT:
                             case UNKNOWN:
@@ -124,7 +121,6 @@ public class KUREGATEService extends AbstractGATEService {
                             default:
                                 break;
                         }
-                        logger.debug("metric: {}", metric.toString());
                     }
                 }
             }
