@@ -107,13 +107,12 @@ public class LookupMetricsTest {
                     }
 
                     if (!alreadyTalliedJobIdSet.contains(nextJob.getId()) && nextJob.getId().equals(info.getJobId())) {
-                        GlideinMetric metric = metricsMap.get(info.getQueue());
                         switch (info.getType()) {
                             case PENDING:
-                                metric.setPending(metric.getPending() + 1);
+                                metricsMap.get(info.getQueue()).incrementPending();
                                 break;
                             case RUNNING:
-                                metric.setRunning(metric.getRunning() + 1);
+                                metricsMap.get(info.getQueue()).incrementRunning();
                                 break;
                             case EXIT:
                             case UNKNOWN:
@@ -134,6 +133,11 @@ public class LookupMetricsTest {
             e.printStackTrace();
         }
 
+        for (String key : metricsMap.keySet()) {
+            GlideinMetric metric = metricsMap.get(key);
+            System.out.println(metric.toString());
+        }
+        
     }
 
     @Test
