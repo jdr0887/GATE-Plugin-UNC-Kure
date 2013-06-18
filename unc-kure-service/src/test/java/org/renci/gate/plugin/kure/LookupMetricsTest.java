@@ -38,19 +38,9 @@ public class LookupMetricsTest {
             site.setName("Kure");
             site.setProject("TCGA");
             site.setUsername("rc_renci.svc");
-            site.setSubmitHost("biodev2.its.unc.edu");
+            site.setSubmitHost("kure.unc.edu");
             site.setMaxTotalPending(4);
             site.setMaxTotalRunning(4);
-            Map<String, Queue> queueInfoMap = new HashMap<String, Queue>();
-            Queue queue = new Queue();
-            queue.setMaxJobLimit(10);
-            queue.setMaxMultipleJobsToSubmit(2);
-            queue.setName("pseq_prod");
-            queue.setWeight(1D);
-            queue.setPendingTime(1440);
-            queue.setRunTime(5760);
-            queueInfoMap.put("pseq_prod", queue);
-            site.setQueueInfoMap(queueInfoMap);
 
             LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(jobCache, site);
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(callable).get();
