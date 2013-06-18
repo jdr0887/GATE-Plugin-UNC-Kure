@@ -7,7 +7,7 @@
       <cm:property name="maxTotalPending" value="4" />
       <cm:property name="maxTotalRunning" value="30" />
       <cm:property name="activeQueues" value="pseq_prod,week" />
-      <cm:property name="submitHost" value="biodev1.its.unc.edu" />
+      <cm:property name="submitHost" value="kure.unc.edu" />
       <cm:property name="collectorHost" value="biodev1.its.unc.edu" />
       <cm:property name="username" value="" />
     </cm:default-properties>
