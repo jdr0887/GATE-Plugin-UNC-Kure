@@ -1,9 +1,6 @@
 <features name="gate-plugin-unc-kure-${project.version}">
 
   <feature name="gate-plugin-unc-kure" version="${project.version}" resolver="(obr)">
-    <bundle>mvn:org.renci.jlrm.jlrm-lsf/jlrm-lsf-api/${renci.jlrm.version}</bundle>
-    <bundle>mvn:org.renci.jlrm.jlrm-lsf/jlrm-lsf-cli/${renci.jlrm.version}</bundle>
-    <bundle>mvn:org.renci.jlrm.jlrm-lsf/jlrm-lsf-ssh/${renci.jlrm.version}</bundle>
     <bundle>mvn:org.renci.gate.plugins.unc.kure/unc-kure-service/${project.version}</bundle>
   </feature>
 
