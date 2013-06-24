@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
 
 import org.junit.Test;
 import org.renci.gate.GlideinMetric;
-import org.renci.jlrm.Queue;
 import org.renci.jlrm.Site;
 import org.renci.jlrm.lsf.LSFJobStatusInfo;
 import org.renci.jlrm.lsf.ssh.LSFSSHJob;
@@ -38,7 +37,7 @@ public class LookupMetricsTest {
             site.setName("Kure");
             site.setProject("TCGA");
             site.setUsername("rc_renci.svc");
-            site.setSubmitHost("kure.unc.edu");
+            site.setSubmitHost("biodev1.its.unc.edu");
             site.setMaxTotalPending(4);
             site.setMaxTotalRunning(4);
 
