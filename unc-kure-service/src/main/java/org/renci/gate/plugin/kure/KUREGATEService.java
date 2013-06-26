@@ -1,11 +1,8 @@
 package org.renci.gate.plugin.kure;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -17,7 +14,6 @@ import org.renci.gate.GlideinMetric;
 import org.renci.jlrm.Queue;
 import org.renci.jlrm.lsf.LSFJobStatusInfo;
 import org.renci.jlrm.lsf.LSFJobStatusType;
-import org.renci.jlrm.lsf.ssh.LSFSSHJob;
 import org.renci.jlrm.lsf.ssh.LSFSSHKillCallable;
 import org.renci.jlrm.lsf.ssh.LSFSSHLookupStatusCallable;
 import org.renci.jlrm.lsf.ssh.LSFSSHSubmitCondorGlideinCallable;
@@ -32,8 +28,6 @@ public class KUREGATEService extends AbstractGATEService {
 
     private final Logger logger = LoggerFactory.getLogger(KUREGATEService.class);
 
-    private final List<LSFSSHJob> jobCache = new ArrayList<LSFSSHJob>();
-
     private String username;
 
     public KUREGATEService() {
@@ -46,7 +40,7 @@ public class KUREGATEService extends AbstractGATEService {
         Map<String, GlideinMetric> metricsMap = new HashMap<String, GlideinMetric>();
 
         try {
-            LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(jobCache, getSite());
+            LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(getSite());
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(callable).get();
             logger.debug("jobStatusSet.size(): {}", jobStatusSet.size());
 
@@ -54,16 +48,11 @@ public class KUREGATEService extends AbstractGATEService {
             Set<String> queueSet = new HashSet<String>();
             if (jobStatusSet != null && jobStatusSet.size() > 0) {
                 for (LSFJobStatusInfo info : jobStatusSet) {
-                    queueSet.add(info.getQueue());
+                    if (!queueSet.contains(info.getQueue())) {
+                        queueSet.add(info.getQueue());
+                    }
                 }
-                for (LSFSSHJob job : jobCache) {
-                    queueSet.add(job.getQueueName());
-                }
-            }
 
-            Set<String> alreadyTalliedJobIdSet = new HashSet<String>();
-
-            if (jobStatusSet != null && jobStatusSet.size() > 0) {
                 for (LSFJobStatusInfo info : jobStatusSet) {
                     if (metricsMap.containsKey(info.getQueue())) {
                         continue;
@@ -72,7 +61,6 @@ public class KUREGATEService extends AbstractGATEService {
                         continue;
                     }
                     metricsMap.put(info.getQueue(), new GlideinMetric(0, 0, info.getQueue()));
-                    alreadyTalliedJobIdSet.add(info.getJobId());
                 }
 
                 for (LSFJobStatusInfo info : jobStatusSet) {
@@ -90,41 +78,10 @@ public class KUREGATEService extends AbstractGATEService {
                             break;
                     }
                 }
+
             }
 
-            Iterator<LSFSSHJob> jobCacheIter = jobCache.iterator();
-            while (jobCacheIter.hasNext()) {
-                LSFSSHJob nextJob = jobCacheIter.next();
-                for (LSFJobStatusInfo info : jobStatusSet) {
-
-                    if (!nextJob.getName().equals(info.getJobName())) {
-                        continue;
-                    }
-
-                    if (!alreadyTalliedJobIdSet.contains(nextJob.getId()) && nextJob.getId().equals(info.getJobId())) {
-                        switch (info.getType()) {
-                            case PENDING:
-                                metricsMap.get(info.getQueue()).incrementPending();
-                                break;
-                            case RUNNING:
-                                metricsMap.get(info.getQueue()).incrementRunning();
-                                break;
-                            case EXIT:
-                            case UNKNOWN:
-                            case ZOMBIE:
-                            case DONE:
-                                jobCacheIter.remove();
-                                break;
-                            case SUSPENDED_BY_SYSTEM:
-                            case SUSPENDED_BY_USER:
-                            case SUSPENDED_FROM_PENDING:
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e ) {
+        } catch (Exception e) {
             throw new GATEException(e);
         }
 
@@ -142,7 +99,6 @@ public class KUREGATEService extends AbstractGATEService {
 
         File submitDir = new File("/tmp", System.getProperty("user.name"));
         submitDir.mkdirs();
-        LSFSSHJob job = null;
 
         try {
             logger.info("siteInfo: {}", getSite());
@@ -159,12 +115,8 @@ public class KUREGATEService extends AbstractGATEService {
             callable.setHostAllowRead(hostAllow);
             callable.setHostAllowWrite(hostAllow);
 
-            job = Executors.newSingleThreadExecutor().submit(callable).get();
-            if (job != null && StringUtils.isNotEmpty(job.getId())) {
-                logger.info("job.getId(): {}", job.getId());
-                jobCache.add(job);
-            }
-        } catch (Exception e ) {
+            Executors.newSingleThreadExecutor().submit(callable).get();
+        } catch (Exception e) {
             throw new GATEException(e);
         }
     }
@@ -172,18 +124,14 @@ public class KUREGATEService extends AbstractGATEService {
     @Override
     public void deleteGlidein(Queue queue) throws GATEException {
         logger.info("ENTERING deleteGlidein(QueueInfo)");
-        if (jobCache.size() > 0) {
-            try {
-                logger.info("siteInfo: {}", getSite());
-                logger.info("queueInfo: {}", queue);
-                LSFSSHJob job = jobCache.get(0);
-                logger.info("job: {}", job.toString());
-                LSFSSHKillCallable callable = new LSFSSHKillCallable(getSite(), job.getId());
-                Executors.newSingleThreadExecutor().submit(callable).get();
-                jobCache.remove(0);
-            } catch (Exception e ) {
-                throw new GATEException(e);
-            }
+        try {
+            LSFSSHLookupStatusCallable lookupStatusCallable = new LSFSSHLookupStatusCallable(getSite());
+            Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(lookupStatusCallable).get();
+            LSFSSHKillCallable killCallable = new LSFSSHKillCallable(getSite(), jobStatusSet.iterator().next()
+                    .getJobId());
+            Executors.newSingleThreadExecutor().submit(killCallable).get();
+        } catch (Exception e) {
+            throw new GATEException(e);
         }
     }
 
@@ -191,7 +139,7 @@ public class KUREGATEService extends AbstractGATEService {
     public void deletePendingGlideins() throws GATEException {
         logger.info("ENTERING deletePendingGlideins()");
         try {
-            LSFSSHLookupStatusCallable lookupStatusCallable = new LSFSSHLookupStatusCallable(jobCache, getSite());
+            LSFSSHLookupStatusCallable lookupStatusCallable = new LSFSSHLookupStatusCallable(getSite());
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(lookupStatusCallable).get();
             for (LSFJobStatusInfo info : jobStatusSet) {
                 if (info.getType().equals(LSFJobStatusType.PENDING)) {
@@ -201,7 +149,7 @@ public class KUREGATEService extends AbstractGATEService {
                 // throttle the deleteGlidein calls such that SSH doesn't complain
                 Thread.sleep(2000);
             }
-        } catch (Exception e ) {
+        } catch (Exception e) {
             throw new GATEException(e);
         }
     }
