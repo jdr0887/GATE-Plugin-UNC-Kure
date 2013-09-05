@@ -57,13 +57,13 @@
     <property name="submitHost" value="${submitHost}" />
     <property name="maxTotalPending" value="${maxTotalPending}" />
     <property name="maxTotalRunning" value="${maxTotalRunning}" />
-    <property name="queueInfoMap">
-      <map>
-        <entry key="pseq_tcga" value-ref="pseqTCGAQueue" />
-        <entry key="pseq_prod" value-ref="pseqProdQueue" />
-        <entry key="prenci" value-ref="pRENCIQueue" />
-        <entry key="week" value-ref="weekQueue" />
-      </map>
+    <property name="queueList">
+      <list>
+        <ref component-id="pseqTCGAQueue" />
+        <ref component-id="pseqProdQueue" />
+        <ref component-id="pRENCIQueue" />
+        <ref component-id="weekQueue" />
+      </list>
     </property>
   </bean>
 
