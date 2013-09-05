@@ -2,13 +2,13 @@
   <parent>
     <groupId>org.renci.gate.plugins.unc</groupId>
     <artifactId>kure</artifactId>
-    <version>0.1.20-SNAPSHOT</version>
+    <version>g_p_u_ts gate-plugin-unc-topsail</version>
   </parent>
   <name>GATE :: Plugins :: UNC :: Kure :: Features</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.renci.gate.plugins.unc.kure</groupId>
   <artifactId>unc-kure-features</artifactId>
-  <version>0.1.20-SNAPSHOT</version>
+  <version>g_p_r_h gate-plugin-renci-hatteras</version>
   <packaging>pom</packaging>
   <build>
     <plugins>
