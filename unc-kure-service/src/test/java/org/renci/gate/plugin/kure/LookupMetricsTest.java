@@ -31,14 +31,7 @@ public class LookupMetricsTest {
             LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(site);
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(callable).get();
 
-            // get unique list of queues
-            Set<String> queueSet = new HashSet<String>();
             if (jobStatusSet != null && jobStatusSet.size() > 0) {
-                for (LSFJobStatusInfo info : jobStatusSet) {
-                    if (!queueSet.contains(info.getQueue())) {
-                        queueSet.add(info.getQueue());
-                    }
-                }
 
                 for (LSFJobStatusInfo info : jobStatusSet) {
                     if (metricsMap.containsKey(info.getQueue())) {
@@ -47,7 +40,7 @@ public class LookupMetricsTest {
                     if (!"glidein".equals(info.getJobName())) {
                         continue;
                     }
-                    metricsMap.put(info.getQueue(), new GlideinMetric(0, 0, info.getQueue()));
+                    metricsMap.put(info.getQueue(), new GlideinMetric(site.getName(), info.getQueue(), 0, 0));
                 }
 
                 for (LSFJobStatusInfo info : jobStatusSet) {
