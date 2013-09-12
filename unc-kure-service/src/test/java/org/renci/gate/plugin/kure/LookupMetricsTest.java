@@ -25,8 +25,6 @@ public class LookupMetricsTest {
             site.setProject("TCGA");
             site.setUsername("rc_renci.svc");
             site.setSubmitHost("biodev1.its.unc.edu");
-            site.setMaxTotalPending(4);
-            site.setMaxTotalRunning(4);
 
             LSFSSHLookupStatusCallable callable = new LSFSSHLookupStatusCallable(site);
             Set<LSFJobStatusInfo> jobStatusSet = Executors.newSingleThreadExecutor().submit(callable).get();
