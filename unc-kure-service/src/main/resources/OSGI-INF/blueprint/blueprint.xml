@@ -4,9 +4,9 @@
 
   <cm:property-placeholder persistent-id="org.renci.gate.plugin.kure" update-strategy="reload">
     <cm:default-properties>
-      <cm:property name="maxTotalPending" value="4" />
-      <cm:property name="maxTotalRunning" value="30" />
-      <cm:property name="activeQueues" value="pseq_prod,week" />
+      <cm:property name="maxPending" value="4" />
+      <cm:property name="maxRunning" value="20" />
+      <cm:property name="activeQueues" value="prenci,pseq_prod" />
       <cm:property name="submitHost" value="kure.unc.edu" />
       <cm:property name="collectorHost" value="biodev1.its.unc.edu" />
       <cm:property name="username" value="" />
@@ -16,47 +16,44 @@
   <bean id="pRENCIQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="prenci" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="40" />
-    <property name="maxMultipleJobsToSubmit" value="2" />
-    <property name="pendingTime" value="1440" />
+    <property name="maxPending" value="${maxPending}" />
+    <property name="maxRunning" value="${maxRunning}" />
     <property name="runTime" value="5760" />
+    <property name="numberOfProcessors" value="8" />
   </bean>
 
   <bean id="pseqProdQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="pseq_prod" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="40" />
-    <property name="maxMultipleJobsToSubmit" value="2" />
-    <property name="pendingTime" value="1440" />
+    <property name="maxPending" value="${maxPending}" />
+    <property name="maxRunning" value="${maxRunning}" />
     <property name="runTime" value="5760" />
+    <property name="numberOfProcessors" value="8" />
   </bean>
 
   <bean id="weekQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="week" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="12" />
-    <property name="maxMultipleJobsToSubmit" value="1" />
-    <property name="pendingTime" value="1440" />
+    <property name="maxPending" value="${maxPending}" />
+    <property name="maxRunning" value="${maxRunning}" />
     <property name="runTime" value="4320" />
+    <property name="numberOfProcessors" value="8" />
   </bean>
 
   <bean id="pseqTCGAQueue" class="org.renci.jlrm.Queue">
     <property name="name" value="pseq_tcga" />
     <property name="weight" value="1" />
-    <property name="maxJobLimit" value="50" />
-    <property name="maxMultipleJobsToSubmit" value="1" />
-    <property name="pendingTime" value="1440" />
+    <property name="maxPending" value="${maxPending}" />
+    <property name="maxRunning" value="${maxRunning}" />
     <property name="runTime" value="5760" />
+    <property name="numberOfProcessors" value="8" />
   </bean>
 
   <bean id="site" class="org.renci.jlrm.Site">
     <property name="name" value="Kure" />
     <property name="project" value="TCGA" />
-    <property name="numberOfProcessors" value="8" />
     <property name="username" value="${username}" />
     <property name="submitHost" value="${submitHost}" />
-    <property name="maxTotalPending" value="${maxTotalPending}" />
-    <property name="maxTotalRunning" value="${maxTotalRunning}" />
     <property name="queueList">
       <list>
         <ref component-id="pseqTCGAQueue" />
