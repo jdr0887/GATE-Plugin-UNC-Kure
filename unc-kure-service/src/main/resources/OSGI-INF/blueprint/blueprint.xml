@@ -2,7 +2,7 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0" default-activation="eager">
 
-  <cm:property-placeholder persistent-id="org.renci.gate.plugin.kure" update-strategy="reload">
+  <cm:property-placeholder persistent-id="org.renci.gate.service.kure" update-strategy="reload">
     <cm:default-properties>
       <cm:property name="maxPending" value="4" />
       <cm:property name="maxRunning" value="20" />
@@ -64,11 +64,11 @@
     </property>
   </bean>
 
-  <bean id="kureGATEService" class="org.renci.gate.plugin.kure.KUREGATEService">
+  <bean id="kureGATEService" class="org.renci.gate.service.kure.KUREGATEService">
     <property name="site" ref="site" />
     <property name="collectorHost" value="${collectorHost}" />
     <property name="activeQueues" value="${activeQueues}" />
-    <cm:managed-properties persistent-id="org.renci.gate.plugin.kure" update-strategy="container-managed" />
+    <cm:managed-properties persistent-id="org.renci.gate.service.kure" update-strategy="container-managed" />
   </bean>
 
   <service ref="kureGATEService" interface="org.renci.gate.GATEService" />
