@@ -72,7 +72,7 @@ public class KUREGATEService extends AbstractGATEService {
 
                 for (LSFJobStatusInfo info : jobStatusSet) {
 
-                    if (!"glidein".equals(info.getJobName())) {
+                    if (!String.format("glidein-%s", getSite().getName().toLowerCase()).equals(info.getJobName())) {
                         continue;
                     }
 
@@ -113,7 +113,7 @@ public class KUREGATEService extends AbstractGATEService {
             callable.setCollectorHost(getCollectorHost());
             callable.setUsername(System.getProperty("user.name"));
             callable.setSite(getSite());
-            callable.setJobName("glidein");
+            callable.setJobName(String.format("glidein-%s", getSite().getName().toLowerCase()));
             callable.setQueue(queue);
             callable.setSubmitDir(submitDir);
             callable.setRequiredMemory(40);
