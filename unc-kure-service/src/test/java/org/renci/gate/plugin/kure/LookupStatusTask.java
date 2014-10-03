@@ -44,7 +44,7 @@ public class LookupStatusTask implements Runnable {
                     if (metricsMap.containsKey(info.getQueue())) {
                         continue;
                     }
-                    if (!"glidein".equals(info.getJobName())) {
+                    if (!info.getJobName().contains("glidein")) {
                         continue;
                     }
                     metricsMap.put(info.getQueue(), new GlideinMetric(site.getName(), info.getQueue(), 0, 0));
@@ -52,7 +52,7 @@ public class LookupStatusTask implements Runnable {
 
                 for (LSFJobStatusInfo info : jobStatusSet) {
 
-                    if (!"glidein".equals(info.getJobName())) {
+                    if (!info.getJobName().contains("glidein")) {
                         continue;
                     }
 
