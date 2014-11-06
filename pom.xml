@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.renci.gate.plugins.unc</groupId>
   <artifactId>kure</artifactId>
-  <version>0.2.18</version>
+  <version>0.2.19-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
     <karaf.version>3.0.1</karaf.version>
@@ -42,7 +42,7 @@
   <scm>
     <developerConnection>scm:git:git@github.com:jdr0887/GATE-Plugin-UNC-Kure.git</developerConnection>
     <connection>scm:git:git@github.com:jdr0887/GATE-Plugin-UNC-Kure.git</connection>
-    <tag>kure-0.2.18</tag>
+    <tag>HEAD</tag>
   </scm>
   <dependencyManagement>
     <dependencies>
