@@ -18,7 +18,7 @@
     <property name="weight" value="1" />
     <property name="maxPending" value="${maxPending}" />
     <property name="maxRunning" value="${maxRunning}" />
-    <property name="runTime" value="5760" />
+    <property name="runTime" value="8640" />
     <property name="numberOfProcessors" value="8" />
   </bean>
 
@@ -27,7 +27,7 @@
     <property name="weight" value="1" />
     <property name="maxPending" value="${maxPending}" />
     <property name="maxRunning" value="${maxRunning}" />
-    <property name="runTime" value="5760" />
+    <property name="runTime" value="8640" />
     <property name="numberOfProcessors" value="8" />
   </bean>
 
@@ -45,7 +45,7 @@
     <property name="weight" value="1" />
     <property name="maxPending" value="${maxPending}" />
     <property name="maxRunning" value="${maxRunning}" />
-    <property name="runTime" value="5760" />
+    <property name="runTime" value="8640" />
     <property name="numberOfProcessors" value="8" />
   </bean>
 
