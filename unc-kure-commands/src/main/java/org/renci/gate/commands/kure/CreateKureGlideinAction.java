@@ -26,13 +26,16 @@ public class CreateKureGlideinAction extends AbstractAction {
     @Option(name = "--collectorHost", required = true, multiValued = false)
     private String collectorHost;
 
+    @Option(name = "--runTime", required = false, multiValued = false)
+    private Long runTime = 5760L;
+
     public CreateKureGlideinAction() {
         super();
     }
 
     @Override
     public Object doExecute() {
-        
+
         Site site = new Site();
         site.setName("Kure");
         site.setSubmitHost(submitHost);
@@ -40,7 +43,7 @@ public class CreateKureGlideinAction extends AbstractAction {
 
         Queue queue = new Queue();
         queue.setName(queueName);
-        queue.setRunTime(5760L);
+        queue.setRunTime(runTime);
         queue.setNumberOfProcessors(8);
 
         File submitDir = new File("/tmp");
@@ -98,6 +101,14 @@ public class CreateKureGlideinAction extends AbstractAction {
 
     public void setCollectorHost(String collectorHost) {
         this.collectorHost = collectorHost;
+    }
+
+    public Long getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(Long runTime) {
+        this.runTime = runTime;
     }
 
 }
