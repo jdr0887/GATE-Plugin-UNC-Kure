@@ -1,7 +1,6 @@
 package org.renci.gate.service.kure;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
@@ -10,7 +9,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +23,6 @@ import org.renci.jlrm.Queue;
 import org.renci.jlrm.Site;
 import org.renci.jlrm.commons.ssh.SSHConnectionUtil;
 import org.renci.jlrm.lsf.ssh.LSFSSHJob;
-import org.renci.jlrm.lsf.ssh.LSFSSHSubmitCallable;
 import org.renci.jlrm.lsf.ssh.LSFSubmitScriptExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
