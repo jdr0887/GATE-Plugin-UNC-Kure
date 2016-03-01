@@ -20,7 +20,6 @@ import org.renci.jlrm.lsf.LSFJobStatusInfo;
 import org.renci.jlrm.lsf.LSFJobStatusType;
 import org.renci.jlrm.lsf.ssh.LSFSSHKillCallable;
 import org.renci.jlrm.lsf.ssh.LSFSSHLookupStatusCallable;
-import org.renci.jlrm.lsf.ssh.LSFSSHSubmitCondorGlideinCallable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,8 +109,7 @@ public class KUREGATEService extends AbstractGATEService {
         try {
             logger.info("siteInfo: {}", getSite());
             logger.info("queueInfo: {}", queue);
-            String hostAllow = "*.its.unc.edu";
-            LSFSSHSubmitCondorGlideinCallable callable = new LSFSSHSubmitCondorGlideinCallable();
+            KureSubmitCondorGlideinCallable callable = new KureSubmitCondorGlideinCallable();
             callable.setCollectorHost(getCollectorHost());
             callable.setUsername(System.getProperty("user.name"));
             callable.setSite(getSite());
@@ -119,8 +117,8 @@ public class KUREGATEService extends AbstractGATEService {
             callable.setQueue(queue);
             callable.setSubmitDir(submitDir);
             callable.setRequiredMemory(40);
-            callable.setHostAllowRead(hostAllow);
-            callable.setHostAllowWrite(hostAllow);
+            callable.setHostAllowRead(getHostAllow());
+            callable.setHostAllowWrite(getHostAllow());
 
             Executors.newSingleThreadExecutor().submit(callable).get();
         } catch (Exception e) {
