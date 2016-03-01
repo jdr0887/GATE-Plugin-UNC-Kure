@@ -10,7 +10,6 @@ import org.renci.jlrm.JLRMException;
 import org.renci.jlrm.Queue;
 import org.renci.jlrm.Site;
 import org.renci.jlrm.lsf.ssh.LSFSSHJob;
-import org.renci.jlrm.lsf.ssh.LSFSSHSubmitCondorGlideinCallable;
 
 @Command(scope = "unc-kure", name = "create-glidein", description = "Create Glidein")
 @Service
@@ -31,8 +30,12 @@ public class CreateKureGlideinAction implements Action {
     @Option(name = "--runTime", required = false, multiValued = false)
     private Long runTime = 5760L;
 
+    @Option(name = "--hostAllow", required = false, multiValued = false)
+    private String hostAllow;
+
     public CreateKureGlideinAction() {
         super();
+        this.hostAllow = "*.unc.edu";
     }
 
     @Override
@@ -52,7 +55,7 @@ public class CreateKureGlideinAction implements Action {
 
         try {
 
-            LSFSSHSubmitCondorGlideinCallable callable = new LSFSSHSubmitCondorGlideinCallable();
+            KureSubmitCondorGlideinCallable callable = new KureSubmitCondorGlideinCallable();
             callable.setCollectorHost(collectorHost);
             callable.setUsername(System.getProperty("user.name"));
             callable.setSite(site);
@@ -111,6 +114,14 @@ public class CreateKureGlideinAction implements Action {
 
     public void setRunTime(Long runTime) {
         this.runTime = runTime;
+    }
+
+    public String getHostAllow() {
+        return hostAllow;
+    }
+
+    public void setHostAllow(String hostAllow) {
+        this.hostAllow = hostAllow;
     }
 
 }
